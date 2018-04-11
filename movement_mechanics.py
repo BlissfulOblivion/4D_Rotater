@@ -11,7 +11,7 @@ class sprite:
         self.gridpos = [0,1]    # Sets initial grid position
         self.x = self.pos[0]    # Sets grid x position to initial x-position
         self.y = self.pos[1]    # Sets grid y position to initial y-position
-        self.z = 1         # Sets grid z position to 1 to center it on the cross-section of plane 1
+        self.z = 1              # Sets grid z position to 1 to center it on the cross-section of plane 1
             
     # Defines movement method
     def move(self,direction,boundaries):
@@ -47,17 +47,17 @@ def rotate(rotated,char,curmap,maps):
         rotatedmap = [[0 for col in range(12)] for row in range(12)]
         for mapp in range(len(maps)):
             for row in range(12):
-                rotatedmap[mapp*3][row] = maps[mapp][pos-1][row]
-                rotatedmap[1+mapp*3][row] = maps[mapp][pos][row]
-                rotatedmap[2+mapp*3][row] = maps[mapp][pos+1][row]
+                rotatedmap[row][mapp*3] = maps[mapp][row][pos-1]
+                rotatedmap[row][1+mapp*3] = maps[mapp][row][pos]
+                rotatedmap[row][2+mapp*3] = maps[mapp][row][pos+1]
         char.x = char.gridpos[0]
-        if curmap == maps[0]:
+        if curmap == 0:
             char.z = 1
-        elif curmap == maps[1]:
+        elif curmap == 1:
             char.z = 4
-        elif curmap == maps[2]:
+        elif curmap == 2:
             char.z = 7
-        elif curmap == maps[3]:
+        elif curmap == 3:
             char.z = 10
         char.gridpos[0] = char.z
         return rotated,rotatedmap
@@ -65,21 +65,13 @@ def rotate(rotated,char,curmap,maps):
     elif rotated == True:
         rotated = False
         if pos in range(0,3):
-            for row in range(12):
-                for col in range(12):
-                    curmap[row][col] = maps[0][row][col]
+            curmap = 0
         elif pos in range(3,6):
-            for row in range(12):
-                for col in range(12):
-                    curmap[row][col] = maps[1][row][col]
+            curmap = 1
         elif pos in range(6,9):
-            for row in range(12):
-                for col in range(12):
-                    curmap[row][col] = maps[2][row][col]
+            curmap = 2
         elif pos in range(9,12):
-            for row in range(12):
-                for col in range(12):
-                    curmap[row][col] = maps[3][row][col]
+            curmap = 3
         if pos in [0,3,6,9]:
             char.x -= 1
         if pos in [2,5,8,11]:

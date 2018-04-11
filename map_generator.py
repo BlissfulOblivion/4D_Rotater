@@ -8,6 +8,10 @@ def genmap(puzzle):
             for col in range(len(maps[plane][row])):
                 if rawmaps[0][0] == 'X':
                     maps[plane][row][col] = 1
+                elif rawmaps[0][0] == 'O':
+                    maps[plane][row][col] = 0
+                elif rawmaps[0][0] == 'Z':
+                    maps[plane][row][col] = 7
                 else:
                     maps[plane][row][col] = 8
                 rawmaps[0] = rawmaps[0][1:]

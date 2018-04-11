@@ -24,33 +24,34 @@ tiles = [pygame.image.load(str(i) + "tile.png").convert() for i in range(9)]
 # 7 - sky
 # 8 - pit
 
-switchespos = [(1,(5,7)),(2,(7,7)),(3,(9,7))]
+switchespos = [[4,7],[7,7],[10,7]]
 
-def activateswitch(switch):
+def activateswitch(switch,maps):
     if switch == 0:
         for i in range(3):
-            for j in range(3,5):
-                maps[0][i][j] = '1'
+            for j in range(3,6):
+                maps[0][i][j] = 1
         for i in range(3):
-            for j in range(3,5):
-                maps[1][i][j] = '0'
+            for j in range(3,6):
+                maps[1][i][j] = 8
     if switch == 1:
         for i in range(3):
-            for j in range(5,9):
-                maps[0][i][j] = '1'
+            for j in range(6,9):
+                maps[0][i][j] = 1
         for i in range(3):
-            for j in range(5,9):
-                maps[1][i][j] = '0'
+            for j in range(6,9):
+                maps[2][i][j] = 8
     if switch == 2:
         for i in range(3):
             for j in range(9,12):
-                maps[0][i][j] = '1'
+                maps[0][i][j] = 1
         for i in range(3):
             for j in range(9,12):
-                maps[1][i][j] = '0'
+                maps[3][i][j] = 8
+    return maps
 
 
-puzzles = ['puzzle3.txt','puzzle4.txt','puzzle7.txt']
+puzzles = ['puzzle3.txt','puzzle4.txt','puzzle5.txt','puzzle7.txt']
 x = 0
 maps = genmap(puzzles[x])
 curmap = 0
@@ -132,6 +133,7 @@ while True:
                     char.move("OUT",boundaries)
                 else:
                     char.move("L",boundaries)
+                    
             elif event.key == K_u:
                 if x == 0:
                     maps = genmap(puzzles[1])
@@ -140,16 +142,45 @@ while True:
                     x = 1
                 elif x == 1:
                     maps = genmap(puzzles[2])
-                    char.gridpos = [3,6]
+                    char.gridpos = [0,1]
                     curmap = 0
                     x = 2
                 elif x == 2:
+                    maps = genmap(puzzles[3])
+                    char.gridpos = [3,5]
+                    curmap = 0
+                    x = 3
+                elif x == 3:
                     maps = genmap(puzzles[0])
-                    char.gridpos = [0,1]
+                    char.gridpos = [0,0]
                     curmap = 0
                     x = 0
-        if (curmap,char.gridpos) in switchespos:
-            activateswitch(switchespos.index((curmap,char.gridpos)))
+                    
+            elif event.key == K_d and maps[curmap][char.gridpos[1]][char.gridpos[0]] == 7:
+                if x == 0:
+                    maps = genmap(puzzles[1])
+                    curmap = 0
+                    char.gridpos = [0,1]
+                    x = 1
+                elif x == 1:
+                    maps = genmap(puzzles[2])
+                    char.gridpos = [0,1]
+                    curmap = 0
+                    x = 2
+                elif x == 2:
+                    maps = genmap(puzzles[3])
+                    char.gridpos = [3,5]
+                    curmap = 0
+                    x = 3
+                elif x == 3:
+                    maps = genmap(puzzles[0])
+                    char.gridpos = [0,0]
+                    curmap = 0
+                    x = 0
+                    
+        if rotated == False and x == 2:
+            if char.gridpos in switchespos:
+                maps = activateswitch(switchespos.index(char.gridpos),maps)
             
     if rotated == False:
         for row in range(12):

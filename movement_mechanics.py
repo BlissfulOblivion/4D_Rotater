@@ -80,10 +80,7 @@ def rotate(rotated,char,curmap,maps):
         char.gridpos[0] = char.x
         return rotated,curmap
     
-    
-    
-    
-    
+
     
     
     
